@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 9</title>
+  <title>Lab 9 - Debugged</title>
 
   <style>
     button {
@@ -30,6 +30,16 @@
       width: 240px;
     }
 
+    .error {
+      color: red;
+      border-color: red;
+    }
+
+    .success {
+      color: green;
+      border-color: green;
+    }
+
     main {
       width: 800px;
     }
@@ -46,25 +56,32 @@
       padding: 8px 2px;
       width: 122px;
     }
+
+    #debug-info {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
   </style>
 </head>
 
 <body>
   <main>
-    <form>
+    <form id="calc-form">
       <fieldset>
         <legend>Error Calculator</legend>
-        <input name="first-num" id="first-num" />
+        <input name="first-num" id="first-num" placeholder="First Number" />
         <select name="operator" id="operator">
           <option>+</option>
           <option>-</option>
           <option>*</option>
           <option>/</option>
         </select>
-        <input name="second-num" id="second-num" />
-        <button id="calculate">Calculate</button>
+        <input name="second-num" id="second-num" placeholder="Second Number" />
+        <button id="calculate" type="submit">Calculate</button>
         <br />
-        <output></output>
+        <output id="result"></output>
       </fieldset>
     </form>
 
@@ -85,24 +102,26 @@
       <button>Console Trace</button>
       <button>Trigger a Global Error</button>
     </section>
+
+    <div id="debug-info">
+      <h3>Debug Information:</h3>
+      <p>Check the console for detailed error information</p>
+    </div>
   </main>
 
+  <!-- TrackJS Integration -->
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+    window.TrackJS && TrackJS.install({ 
+      token: "728115029aac4d0c8edfbbe253c1e25a",
+      onError: function(payload) {
+        console.log('TrackJS captured error:', payload);
+        return true; // Allow TrackJS to send the error
+      }
     });
+  </script>
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
-    // Start your code here
-    // You may move this JS to another file if you wish
+  <script src="script.js">
   </script>
 </body>
-
 </html>
